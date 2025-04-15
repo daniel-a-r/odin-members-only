@@ -1,5 +1,4 @@
-import { body, validationResult } from 'express-validator';
-import passportLocal from 'passport-local';
+import '@dotenvx/dotenvx/config';
 import app from './config/appConfig.js';
 import indexRouter from './routes/indexRouter.js';
 

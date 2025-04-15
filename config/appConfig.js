@@ -1,8 +1,7 @@
 import path from 'node:path';
 import express from 'express';
 import session from 'express-session';
-import passport from 'passport';
-import '@dotenvx/dotenvx/config';
+import passport from './passportConfig.js';
 
 const app = express();
 

@@ -4,9 +4,16 @@
   <body>
     <h1>hello world</h1>
     <nav>
+      <% if (locals.currentUser) { %>
+       <h1>Hello <%= locals.currentUser.username %></h1>
+      <% } %>
       <ul>
-        <li><a href="/sign-up">Sign Up</a></li>
-        <li><a href="/login">Login</a></li>
+        <% if (locals.currentUser) { %>
+          <li><a href="/logout">Logout</a></li>
+        <% } else { %>
+          <li><a href="/sign-up">Sign Up</a></li>
+          <li><a href="/login">Login</a></li>
+        <% } %>
       </ul>
     </nav>
   </body>
