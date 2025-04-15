@@ -7,10 +7,9 @@ import '@dotenvx/dotenvx/config';
 const app = express();
 
 // set view engine
-app.set('views', path.join(import.meta.dirname, 'views'));
+app.set('views', path.resolve('./views'));
 app.set('view engine', 'ejs');
-
-app.use(express.static(path.join(import.meta.dirname, 'public')));
+app.use(express.static(path.resolve('./public')));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
