@@ -16,7 +16,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "create-table": "node ./db/createTable.js"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.40.0",
