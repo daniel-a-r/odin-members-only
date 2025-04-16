@@ -32,8 +32,7 @@ const validateUserSignUp = [
 const indexRouter = Router();
 
 indexRouter.get('/', (req, res) => {
-  console.log({ user: req.user });
-  res.render('index', { title: 'Home', currentUser: req.user });
+  res.render('index', { title: 'Home' });
 });
 
 indexRouter
@@ -62,7 +61,7 @@ indexRouter
 indexRouter
   .route('/login')
   .get((req, res) => {
-    console.log(req.session);
+    // console.log(req.session);
     res.render('login', { title: 'Login' });
   })
   .post(
