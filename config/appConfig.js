@@ -21,4 +21,9 @@ app.use(
 );
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 export default app;
