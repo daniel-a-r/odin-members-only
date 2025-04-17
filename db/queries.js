@@ -19,4 +19,13 @@ const getUserFromId = async (id) => {
   return rows[0];
 };
 
-export default { insertUser, getUserFromUsername, getUserFromId };
+const updateUserMembershipFromId = async (id) => {
+  await pool.query('UPDATE users SET member = $1 WHERE id = $2', [true, id]);
+};
+
+export default {
+  insertUser,
+  getUserFromUsername,
+  getUserFromId,
+  updateUserMembershipFromId,
+};

@@ -9,6 +9,9 @@
       <% } %>
       <ul>
         <% if (locals.currentUser) { %>
+          <% if (!locals.currentUser.member) { %>
+            <li><a href="/join">Become a member</a></li>
+          <% } %>
           <li><a href="/logout">Logout</a></li>
         <% } else { %>
           <li><a href="/sign-up">Sign Up</a></li>

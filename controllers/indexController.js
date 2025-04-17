@@ -120,3 +120,28 @@ export const logoutGet = (req, res, next) => {
     res.redirect('/');
   });
 };
+
+export const joinGet = (req, res) => {
+  if (!req.user) {
+    return res.status(401).redirect('/login');
+  }
+
+  if (req.user.member) {
+    return res.redirect('/');
+  }
+
+  res.render('join', { title: 'Become a member' });
+};
+
+export const joinPost = async (req, res) => {
+  if (req.body.password !== process.env.MEMBERSHIP_PW) {
+    return res.redirect('/join');
+  }
+
+  try {
+    await db.updateUserMembershipFromId(req.user.id);
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+  }
+};

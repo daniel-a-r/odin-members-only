@@ -18,4 +18,10 @@ indexRouter
 
 indexRouter.get('/logout', controller.logoutGet);
 
+// prettier-ignore
+indexRouter
+  .route('/join')
+  .get(controller.joinGet)
+  .post(controller.joinPost);
+
 export default indexRouter;
