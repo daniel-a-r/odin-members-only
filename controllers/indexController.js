@@ -145,3 +145,16 @@ export const joinPost = async (req, res) => {
     console.error(error);
   }
 };
+
+export const newMessageGet = (req, res) => {
+  if (!req.user) {
+    return res.status(401).redirect('/login');
+  }
+
+  res.render('newMessage', { title: 'Create a new message' });
+};
+
+export const newMessagePost = async (req, res) => {
+  console.log(req.body);
+  res.redirect('/new-message');
+};

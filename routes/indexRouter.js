@@ -24,4 +24,9 @@ indexRouter
   .get(controller.joinGet)
   .post(controller.joinPost);
 
+indexRouter
+  .route('/new-message')
+  .get(controller.newMessageGet)
+  .post(controller.newMessagePost);
+
 export default indexRouter;
