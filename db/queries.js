@@ -35,7 +35,7 @@ const DATE_TIME_FORMAT = 'Mon DD YYYY, HH12:MIPM TZ';
 
 const getAllMessagesAsMember = async () => {
   const query = `
-    SELECT users.username AS user, messages.subject, messages.content, TO_CHAR(messages.timestamp, '${DATE_TIME_FORMAT}') AS timestamp
+    SELECT users.username AS user, messages.subject, messages.content, TO_CHAR(messages.timestamp, '${DATE_TIME_FORMAT}') AS timestamp, messages.id AS id
     FROM users
     JOIN messages
     ON users.id = messages.user_id;
@@ -46,10 +46,18 @@ const getAllMessagesAsMember = async () => {
 
 const getAllMessagesAsNonMember = async () => {
   const query = `
-    SELECT subject, content, TO_CHAR(timestamp, '${DATE_TIME_FORMAT}') AS timestamp, user_id AS user FROM messages;
+    SELECT user_id AS user, subject, content, TO_CHAR(timestamp, '${DATE_TIME_FORMAT}') AS timestamp, id
+    FROM messages;
   `;
   const { rows } = await pool.query(query);
   return rows;
+};
+
+const deleteMessageFromId = async (id) => {
+  const query = `
+    DELETE FROM messages WHERE id = $1;
+  `;
+  await pool.query(query, [id]);
 };
 
 export default {
@@ -60,4 +68,5 @@ export default {
   insertMessage,
   getAllMessagesAsMember,
   getAllMessagesAsNonMember,
+  deleteMessageFromId,
 };

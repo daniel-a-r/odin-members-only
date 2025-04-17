@@ -29,4 +29,6 @@ indexRouter
   .get(controller.newMessageGet)
   .post(controller.newMessagePost);
 
+indexRouter.post('/:messageId', controller.messageIdPost);
+
 export default indexRouter;

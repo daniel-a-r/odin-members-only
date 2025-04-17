@@ -29,7 +29,7 @@ export const indexGet = async (req, res) => {
       } else {
         messages = await db.getAllMessagesAsNonMember();
       }
-      console.log(messages);
+      return res.render('index', { title: 'Home', messages });
     }
     res.render('index', { title: 'Home' });
   } catch (error) {
@@ -176,6 +176,15 @@ export const newMessagePost = async (req, res) => {
   const timestamp = new Date();
   try {
     await db.insertMessage(subject, content, timestamp, req.user.id);
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const messageIdPost = async (req, res) => {
+  try {
+    await db.deleteMessageFromId(req.params.messageId);
     res.redirect('/');
   } catch (error) {
     console.error(error);
