@@ -6,16 +6,17 @@ import passport from '../config/passportConfig.js';
 
 const { body } = new ExpressValidator({
   isUsernameNotInUse: async (value) => {
+    // doesn't need to return true since can be resolved as a promise
     const existingUser = await db.getUserFromUsername(value);
     if (existingUser) {
       throw new Error('Username already taken');
     }
-    return true;
   },
   passwordsMatch: (value, { req }) => {
     if (value !== req.body.password) {
       throw new Error('Passwords must match');
     }
+    // needs to return a boolean value
     return true;
   },
 });
