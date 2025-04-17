@@ -20,8 +20,21 @@ const { body } = new ExpressValidator({
   },
 });
 
-export const indexGet = (req, res) => {
-  res.render('index', { title: 'Home' });
+export const indexGet = async (req, res) => {
+  try {
+    if (req.user) {
+      let messages;
+      if (req.user.member) {
+        messages = await db.getAllMessagesAsMember();
+      } else {
+        messages = await db.getAllMessagesAsNonMember();
+      }
+      console.log(messages);
+    }
+    res.render('index', { title: 'Home' });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const signUpGet = (req, res) => {
@@ -155,6 +168,16 @@ export const newMessageGet = (req, res) => {
 };
 
 export const newMessagePost = async (req, res) => {
-  console.log(req.body);
-  res.redirect('/new-message');
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
+  const { subject, content } = req.body;
+  const timestamp = new Date();
+  try {
+    await db.insertMessage(subject, content, timestamp, req.user.id);
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+  }
 };
