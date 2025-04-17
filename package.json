@@ -17,7 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "npx prettier . --write",
-    "init-users": "node ./db/initUsersTable.js"
+    "init-db": "node ./db/initdb.js"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.40.0",
