@@ -9,11 +9,11 @@ const SQL = `
   DROP TABLE IF EXISTS users;
 
   CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR,
-    password VARCHAR,
-    member BOOLEAN,
-    admin BOOLEAN
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    username VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    member BOOLEAN NOT NULL,
+    admin BOOLEAN NOT NULL
   );
 `;
 
