@@ -27,6 +27,6 @@ indexRouter
 indexRouter.get('/new-message', controller.newMessageGet);
 indexRouter.post('/new-message/:timestamp', controller.newMessagePost);
 
-indexRouter.post('/:messageId', controller.messageIdPost);
+indexRouter.post('/delete/:messageId', controller.messageIdPost);
 
 export default indexRouter;

@@ -183,6 +183,10 @@ export const newMessagePost = async (req, res) => {
 };
 
 export const messageIdPost = async (req, res) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
   try {
     await db.deleteMessageFromId(req.params.messageId);
     res.redirect('/');

@@ -21,7 +21,7 @@
               <p><%= msg.content %></p>
               <p><%= msg.timestamp %></p>
               <% if (locals.currentUser.admin) { %>
-                <form action="/<%= msg.id %>" method="post">
+                <form action="/delete/<%= msg.id %>" method="post">
                   <button type="submit">Delete</button>
                 </form>
               <% } %>
