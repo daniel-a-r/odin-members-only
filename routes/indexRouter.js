@@ -24,6 +24,7 @@ const { body } = new ExpressValidator({
 const validateUserSignUp = [
   body('username')
     .trim()
+    .toLowerCase()
     .isAlphanumeric()
     .withMessage('Username can only contain letters and numbers')
     .isUsernameNotInUse(),
