@@ -1,10 +1,10 @@
 import { pool } from '../config/dbConfig.js';
 
 const insertUser = async (username, password) => {
-  await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [
-    username,
-    password,
-  ]);
+  await pool.query(
+    'INSERT INTO users (username, password, member, admin) VALUES ($1, $2, $3, $4)',
+    [username, password, false, false],
+  );
 };
 
 const getUserFromUsername = async (username) => {
