@@ -24,10 +24,8 @@ indexRouter
   .get(controller.joinGet)
   .post(controller.joinPost);
 
-indexRouter
-  .route('/new-message')
-  .get(controller.newMessageGet)
-  .post(controller.newMessagePost);
+indexRouter.get('/new-message', controller.newMessageGet);
+indexRouter.post('/new-message/:timestamp', controller.newMessagePost);
 
 indexRouter.post('/:messageId', controller.messageIdPost);
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <%- include('./partials/head') %>
   <body>
-    <form action="/new-message" method="post">
+    <form action="/new-message/<%= new Date() %>" method="post">
       <label for="subject">Subject:</label>
       <input type="text" name="subject" id="subject" required />
       <label for="content">Message</label>

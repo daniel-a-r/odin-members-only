@@ -173,7 +173,7 @@ export const newMessagePost = async (req, res) => {
   }
 
   const { subject, content } = req.body;
-  const timestamp = new Date();
+  const timestamp = new Date(req.params.timestamp);
   try {
     await db.insertMessage(subject, content, timestamp, req.user.id);
     res.redirect('/');
