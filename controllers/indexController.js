@@ -69,7 +69,7 @@ const createUser = async (req, res) => {
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     await db.insertUser(username, hashPassword);
-    res.redirect('/');
+    res.redirect('/login');
   } catch (err) {
     console.error(err);
   }
