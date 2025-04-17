@@ -20,30 +20,6 @@ const { body } = new ExpressValidator({
   },
 });
 
-export const indexGet = async (req, res) => {
-  try {
-    if (req.user) {
-      let messages;
-      if (req.user.member) {
-        messages = await db.getAllMessagesAsMember();
-      } else {
-        messages = await db.getAllMessagesAsNonMember();
-      }
-      return res.render('index', { title: 'Home', messages });
-    }
-    res.render('index', { title: 'Home' });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const signUpGet = (req, res) => {
-  if (req.user) {
-    return res.redirect('/');
-  }
-  res.render('signUp', { title: 'Sign-up' });
-};
-
 const validateSignUp = [
   body('username')
     .trim()
@@ -64,27 +40,16 @@ const checkSignUpValidationErrors = (req, res, next) => {
   next();
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   const { username, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 10);
     await db.insertUser(username, hashPassword);
-    res.redirect('/login');
+    // res.redirect('/login');
+    next();
   } catch (err) {
     console.error(err);
   }
-};
-
-export const signUpPost = validateSignUp.concat(
-  checkSignUpValidationErrors,
-  createUser,
-);
-
-export const loginGet = (req, res) => {
-  if (req.user) {
-    return res.redirect('/');
-  }
-  res.render('login', { title: 'Login', errors: req.session.messages });
 };
 
 const validateLogin = [
@@ -119,78 +84,117 @@ const authenticate = passport.authenticate('local', {
   failureMessage: true,
 });
 
-export const loginPost = validateLogin.concat(
-  checkLoginValidationErrors,
-  clearSessionMessages,
-  authenticate,
-);
-
-export const logoutGet = (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
+export default {
+  indexGet: async (req, res) => {
+    try {
+      if (req.user) {
+        let messages;
+        if (req.user.member) {
+          messages = await db.getAllMessagesAsMember();
+        } else {
+          messages = await db.getAllMessagesAsNonMember();
+        }
+        return res.render('index', { title: 'Home', messages });
+      }
+      res.render('index', { title: 'Home' });
+    } catch (error) {
+      console.error(error);
     }
-    res.redirect('/');
-  });
-};
+  },
 
-export const joinGet = (req, res) => {
-  if (!req.user) {
-    return res.status(401).redirect('/login');
-  }
+  signUpGet: (req, res) => {
+    if (req.user) {
+      return res.redirect('/');
+    }
+    res.render('signUp', { title: 'Sign-up' });
+  },
 
-  if (req.user.member) {
-    return res.redirect('/');
-  }
+  signUpPost: validateSignUp.concat(
+    checkSignUpValidationErrors,
+    createUser,
+    authenticate,
+  ),
 
-  res.render('join', { title: 'Become a member' });
-};
+  loginGet: (req, res) => {
+    if (req.user) {
+      return res.redirect('/');
+    }
+    res.render('login', { title: 'Login', errors: req.session.messages });
+  },
 
-export const joinPost = async (req, res) => {
-  if (req.body.password !== process.env.MEMBERSHIP_PW) {
-    return res.redirect('/join');
-  }
+  loginPost: validateLogin.concat(
+    checkLoginValidationErrors,
+    clearSessionMessages,
+    authenticate,
+  ),
 
-  try {
-    await db.updateUserMembershipFromId(req.user.id);
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-  }
-};
+  logoutGet: (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/');
+    });
+  },
 
-export const newMessageGet = (req, res) => {
-  if (!req.user) {
-    return res.status(401).redirect('/login');
-  }
+  joinGet: (req, res) => {
+    if (!req.user) {
+      return res.status(401).redirect('/login');
+    }
 
-  res.render('newMessage', { title: 'Create a new message' });
-};
+    if (req.user.member) {
+      return res.redirect('/');
+    }
 
-export const newMessagePost = async (req, res) => {
-  if (!req.user) {
-    return res.redirect('/login');
-  }
+    res.render('join', { title: 'Become a member' });
+  },
 
-  const { subject, content } = req.body;
-  const timestamp = new Date(req.params.timestamp);
-  try {
-    await db.insertMessage(subject, content, timestamp, req.user.id);
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-  }
-};
+  joinPost: async (req, res) => {
+    if (req.body.password !== process.env.MEMBERSHIP_PW) {
+      return res.redirect('/join');
+    }
 
-export const messageIdPost = async (req, res) => {
-  if (!req.user) {
-    return res.redirect('/login');
-  }
+    try {
+      await db.updateUserMembershipFromId(req.user.id);
+      res.redirect('/');
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
-  try {
-    await db.deleteMessageFromId(req.params.messageId);
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-  }
+  newMessageGet: (req, res) => {
+    if (!req.user) {
+      return res.status(401).redirect('/login');
+    }
+
+    res.render('newMessage', { title: 'Create a new message' });
+  },
+
+  newMessagePost: async (req, res) => {
+    if (!req.user) {
+      return res.redirect('/login');
+    }
+
+    const { subject, content } = req.body;
+    const timestamp = new Date(req.params.timestamp);
+    try {
+      await db.insertMessage(subject, content, timestamp, req.user.id);
+      res.redirect('/');
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  messageIdPost: async (req, res) => {
+    if (!req.user) {
+      return res.redirect('/login');
+    }
+
+    try {
+      await db.deleteMessageFromId(req.params.messageId);
+      res.redirect('/');
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
