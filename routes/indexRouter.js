@@ -11,7 +11,8 @@ indexRouter
   .post(controller.signUpPost);
 
 // prettier-ignore
-indexRouter.route('/login')
+indexRouter
+  .route('/login')
   .get(controller.loginGet)
   .post(controller.loginPost);
 

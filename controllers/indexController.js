@@ -25,6 +25,9 @@ export const indexGet = (req, res) => {
 };
 
 export const signUpGet = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
   res.render('signUp', { title: 'Sign-up' });
 };
 
@@ -65,6 +68,9 @@ export const signUpPost = validateSignUp.concat(
 );
 
 export const loginGet = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
   res.render('login', { title: 'Login', errors: req.session.messages });
 };
 
