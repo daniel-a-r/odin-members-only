@@ -150,8 +150,15 @@ export default {
   },
 
   joinPost: async (req, res) => {
+    if (!req.user) {
+      return res.redirect('/login');
+    }
+
     if (req.body.password !== process.env.MEMBERSHIP_PW) {
-      return res.redirect('/join');
+      return res.render('join', {
+        title: 'Become a member',
+        error: 'Incorrect Password',
+      });
     }
 
     try {
