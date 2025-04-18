@@ -167,6 +167,10 @@ textarea {
     width: max-content;
   }
 
+  button.delete {
+    grid-column-start: 1;
+  }
+
   label {
     margin: 0;
     justify-self: end;
