@@ -12,8 +12,10 @@
               <li class="message">
                 <h2><%= msg.subject %></h2>
                 <p><%= msg.content %></p>
-                <p><%= msg.timestamp %></p>
-                <p><%= msg.user %></p>
+                <% if (locals.currentUser.member) { %>
+                  <p><%= msg.timestamp %></p>
+                  <p><%= msg.user %></p>
+                <% } %>
                 <% if (locals.currentUser.admin) { %>
                   <form action="/delete/<%= msg.id %>" method="post">
                     <button type="submit" class="delete">Delete</button>
