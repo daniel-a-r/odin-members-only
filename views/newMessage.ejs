@@ -2,12 +2,15 @@
 <html lang="en">
   <%- include('./partials/head') %>
   <body>
-    <form action="/new-message/<%= new Date() %>" method="post">
-      <label for="subject">Subject:</label>
-      <input type="text" name="subject" id="subject" required />
-      <label for="content">Message</label>
-      <textarea name="content" id="content"></textarea>
-      <button type="submit">Create Message</button>
-    </form>
+    <%- include('./partials/nav') %>
+    <main>
+      <form action="/new-message/<%= new Date() %>" method="post">
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" id="subject" required />
+        <label for="content">Message</label>
+        <textarea name="content" id="content"></textarea>
+        <button type="submit">Create Message</button>
+      </form>
+    </main>
   </body>
 </html>

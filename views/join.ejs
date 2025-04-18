@@ -2,13 +2,16 @@
 <html lang="en">
   <%- include('./partials/head') %>
   <body>
-    <form action="/join" method="post">
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required />
-      <button type="submit">Join</button>
-    </form>
-    <% if (locals.error) { %>
-      <p><%= locals.error %></p>
-    <% } %>
+    <%- include('./partials/nav') %>
+    <main>
+      <form action="/join" method="post">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+        <button type="submit">Join</button>
+      </form>
+      <% if (locals.error) { %>
+        <p><%= locals.error %></p>
+      <% } %>
+    </main>
   </body>
 </html>

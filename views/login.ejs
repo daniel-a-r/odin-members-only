@@ -2,20 +2,23 @@
 <html lang="en">
   <%- include('./partials/head') %>
   <body>
-    <form action="/login" method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required />
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="/sign-up">Sign up</a></p>
-    <% if (locals.errors) { %>
-      <ul>
-        <% errors.forEach(error => { %>
-          <li><%= error %></li>
-        <% }) %>
-      </ul>
-    <% } %>
+    <%- include('./partials/nav') %>
+    <main>
+      <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="/sign-up">Sign up</a></p>
+      <% if (locals.errors) { %>
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </main>
   </body>
 </html>
