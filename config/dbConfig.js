@@ -1,6 +1,6 @@
 import pg from 'pg';
 
-export const connectionString = process.env.DATABASE_URL;
+export const connectionString = process.env.DEV_DB_URL;
 
 const { Pool } = pg;
 

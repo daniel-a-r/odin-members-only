@@ -7,6 +7,7 @@ const { Client } = pg;
 const DROP_TABLES = `
   DROP TABLE IF EXISTS messages;
   DROP TABLE IF EXISTS users;
+  DROP TABLE IF EXISTS "session";
 `;
 
 const CREATE_USERS_TABLE = `
@@ -29,20 +30,28 @@ const CREATE_MESSAGES_TABLE = `
   );
 `;
 
+const CREATE_SESSION_TABLE = `
+  CREATE TABLE "session" (
+    "sid" varchar NOT NULL COLLATE "default",
+    "sess" json NOT NULL,
+    "expire" timestamp(6) NOT NULL
+  )
+  WITH (OIDS=FALSE);
+
+  ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+  CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+`;
+
 const main = async () => {
   console.log('Creating table...');
-  const client = new Client({
-    user: process.env.PG_USER,
-    password: process.env.PG_PASS,
-    host: process.env.PG_HOST,
-    port: process.env.PG_PORT,
-    database: 'odin_members_only',
-  });
+  const client = new Client({ connectionString: process.env.DEV_DB_URL });
 
   await client.connect();
   await client.query(DROP_TABLES);
   await client.query(CREATE_USERS_TABLE);
   await client.query(CREATE_MESSAGES_TABLE);
+  await client.query(CREATE_SESSION_TABLE);
 
   const hashedPassword = await bcrypt.hash(process.env.ADMIN_PW, 10);
   await client.query(
