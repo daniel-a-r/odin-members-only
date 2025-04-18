@@ -1,3 +1,183 @@
+:root {
+  --font-color: #ffffff;
+  --bg-color: #212529;
+  --font-size-min: 1rem;
+}
+
 * {
   font-family: 'Inter', 'Roboto', sans-serif;
+  color: var(--font-color);
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  padding: 2rem;
+  background-color: var(--bg-color);
+  display: grid;
+  grid-template-rows: min-content auto; 
+  gap: 2rem;
+}
+
+nav {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+nav a {
+  font-size: 1.3rem;
+  font-weight: 475;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+a.home {
+  font-size: 2rem;
+  font-weight: 450;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.v-center {
+  justify-content: center;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 250px;
+  align-self: center;
+}
+
+ul.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+li.message {
+  padding: 1rem;
+  border: 1px solid #495057;
+  border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.375rem 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 350;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #0d6efd;
+}
+
+button.delete {
+  background-color: #dc3545;
+  width: min-content;
+  
+  &:hover {
+    background-color: #bb2d3b;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+  font-size: var(--font-size-min);
+  padding: 0.375rem 0.7rem;
+  background-color: var(--bg-color);
+  border: 1px solid #495057 ;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.15s ease-in-out;
+
+  &:focus {
+    border-color: #86b7fe;
+    outline: none;
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+@media screen and (width >= 42rem) {
+  /* body {
+    justify-content: center;
+  } */
+
+  nav, main {
+    justify-self: center;
+  }
+
+  nav {
+    width: 100%;
+    max-width: 64rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  main {
+    width: 100%;
+    max-width: 38rem;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: max-content auto;
+    column-gap: 0.5rem;
+    row-gap: 1rem;
+  }
+
+  form button {
+    grid-column-start: 2;
+    width: max-content;
+  }
+
+  label {
+    margin: 0;
+    justify-self: end;
+    align-self: center;
+  }
+
+  .textarea-label {
+    align-self: start;
+  }
+
+  input, textarea {
+    margin: 0;
+  }
 }

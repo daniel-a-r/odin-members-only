@@ -4,11 +4,12 @@
   <body>
     <%- include('./partials/nav') %>
     <main>
+      <%- include('./partials/titleHeading') %>
       <form action="/new-message/<%= new Date() %>" method="post">
         <label for="subject">Subject:</label>
         <input type="text" name="subject" id="subject" required />
-        <label for="content">Message</label>
-        <textarea name="content" id="content"></textarea>
+        <label for="content" class="textarea-label">Message:</label>
+        <textarea name="content" id="content" rows="10"></textarea>
         <button type="submit">Create Message</button>
       </form>
     </main>

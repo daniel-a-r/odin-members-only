@@ -3,26 +3,28 @@
   <%- include('./partials/head') %>
   <body>
     <%- include('./partials/nav') %>
-    <main>
+    
       <% if (locals.currentUser) { %>
-        <h1>Hello <%= locals.currentUser.username %></h1>
-        <ul>
-          <% messages.forEach(msg => { %>
-            <li>
-              <p><%= msg.user %></p>
-              <p><%= msg.subject %></p>
-              <p><%= msg.content %></p>
-              <p><%= msg.timestamp %></p>
-              <% if (locals.currentUser.admin) { %>
-                <form action="/delete/<%= msg.id %>" method="post">
-                  <button type="submit">Delete</button>
-                </form>
-              <% } %>
-            </li>
-          <% }) %>
-        </ul>
+        <main class="no-center">
+          <h1>Hello <%= locals.currentUser.username %></h1>
+          <ul class="message-list">
+            <% messages.forEach(msg => { %>
+              <li class="message">
+                <h2><%= msg.subject %></h2>
+                <p><%= msg.content %></p>
+                <p><%= msg.timestamp %></p>
+                <p><%= msg.user %></p>
+                <% if (locals.currentUser.admin) { %>
+                  <form action="/delete/<%= msg.id %>" method="post">
+                    <button type="submit" class="delete">Delete</button>
+                  </form>
+                <% } %>
+              </li>
+            <% }) %>
+          </ul>
       <% } else { %>
-        <h1>Login or sign-up</h1>
+        <main class="v-center">
+          <img src="https://cdn.statically.io/gh/TheOdinProject/curriculum/5f37d43908ef92499e95a9b90fc3cc291a95014c/html_css/project-sign-up-form/odin-lined.png" alt="">
       <% } %>
     </main>
   </body>

@@ -1,6 +1,6 @@
 <nav>
-  <a href="/">Odin's Club</a>
-  <ul>
+  <a href="/" class="home">Odin's Club</a>
+  <ul class="nav">
     <% if (locals.currentUser) { %>
       <% if (!locals.currentUser.member) { %>
         <li><a href="/join">Become a member</a></li>
