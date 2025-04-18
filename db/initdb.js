@@ -1,13 +1,15 @@
 import '@dotenvx/dotenvx/config';
 import pg from 'pg';
-import { connectionString } from '../config/dbConfig.js';
 import bcrypt from 'bcryptjs';
 
 const { Client } = pg;
 
-const CREATE_USERS_TABLE = `
+const DROP_TABLES = `
+  DROP TABLE IF EXISTS messages;
   DROP TABLE IF EXISTS users;
+`;
 
+const CREATE_USERS_TABLE = `
   CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR NOT NULL,
@@ -18,8 +20,6 @@ const CREATE_USERS_TABLE = `
 `;
 
 const CREATE_MESSAGES_TABLE = `
-  DROP TABLE IF EXISTS messages;
-
   CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     subject VARCHAR NOT NULL,
@@ -32,11 +32,17 @@ const CREATE_MESSAGES_TABLE = `
 const main = async () => {
   console.log('Creating table...');
   const client = new Client({
-    connectionString,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASS,
+    host: process.env.PG_HOST,
+    port: process.env.PG_PORT,
+    database: 'odin_members_only',
   });
 
   await client.connect();
+  await client.query(DROP_TABLES);
   await client.query(CREATE_USERS_TABLE);
+  await client.query(CREATE_MESSAGES_TABLE);
 
   const hashedPassword = await bcrypt.hash(process.env.ADMIN_PW, 10);
   await client.query(
@@ -44,7 +50,6 @@ const main = async () => {
     ['danny', hashedPassword, true, true],
   );
 
-  await client.query(CREATE_MESSAGES_TABLE);
   await client.end();
   console.log('Done');
 };
